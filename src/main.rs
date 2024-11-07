@@ -5,7 +5,8 @@ use sdl2::rect::Rect;
 mod view;
 mod model;
 use view::board_view;
-use model::game::BoardPiece;
+use model::game::make_blank_board;
+use model::game::GameState;
 
 fn main() -> Result<(), String> {
     let screen_width: u32 = 800;
@@ -32,6 +33,10 @@ fn main() -> Result<(), String> {
         clear_color: Color::RGB(64, 192, 255),
     };
     
+    let mut game_state: GameState = GameState {board:make_blank_board()};
+
+    game_state.print_board();
+
     let mut running: bool = true;
 
 
@@ -46,8 +51,8 @@ fn main() -> Result<(), String> {
                 Event::MouseMotion {
                     x, y, xrel, yrel, ..
                 } => {
-                    println!("Mouse x: {}, y: {}", x, y);
-                    println!("Relative x: {}, y: {}", xrel, yrel);
+                    // println!("Mouse x: {}, y: {}", x, y);
+                    // println!("Relative x: {}, y: {}", xrel, yrel);
                 }
                 _ => {}
             }
