@@ -36,6 +36,8 @@ fn main() -> Result<(), String> {
     let mut game_state: GameState = GameState {board:make_blank_board()};
 
     game_state.print_board();
+    game_state.jumble_board();
+    game_state.print_board();
 
     let mut running: bool = true;
 
@@ -58,7 +60,7 @@ fn main() -> Result<(), String> {
             }
         }
 
-        board_view.render(&mut canvas);
+        board_view.render(&mut canvas,&game_state.board);
 
         canvas.present();
     }
