@@ -3,7 +3,9 @@ use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 
 mod view;
+mod model;
 use view::board_view;
+use model::game::BoardPiece;
 
 fn main() -> Result<(), String> {
     let screen_width: u32 = 800;
