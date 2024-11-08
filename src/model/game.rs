@@ -11,11 +11,20 @@ pub fn make_blank_board() -> [[BoardPiece; 5]; 5] {
 
 pub struct GameState {
     pub board: [[BoardPiece; 5]; 5],
+
     pub current_player: BoardPiece,
     pub pieces_droped: [i32; 2],
 }
 
 impl GameState {
+    pub fn new() -> Self {
+        Self {
+            board: make_blank_board(),
+            current_player: BoardPiece::Red,
+            pieces_droped: [0, 0],
+        }
+    }
+
     pub fn jumble_board(&mut self) {
         self.board[1][0] = BoardPiece::Red;
         self.board[2][0] = BoardPiece::Black;

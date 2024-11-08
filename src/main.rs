@@ -1,13 +1,9 @@
 use sdl2::event::Event;
-use sdl2::pixels::Color;
-use sdl2::rect::Rect;
 
 mod model;
 mod view;
-use model::game::make_blank_board;
-use model::game::BoardPiece;
 use model::game::GameState;
-use view::board_view;
+use view::board_view::Renderer;
 
 fn main() -> Result<(), String> {
     let screen_width: u32 = 800;
@@ -24,20 +20,9 @@ fn main() -> Result<(), String> {
 
     let mut canvas = window.into_canvas().build().unwrap();
 
-    // let screen_area = Rect::new(0, 0, screen_width, screen_height);
+    let board_view: Renderer = Renderer::new(screen_width, screen_height);
 
-    // let clear_color = Color::RGB(64, 192, 255);
-
-    let board_view: board_view::Renderer = board_view::Renderer {
-        screen_area: Rect::new(0, 0, screen_width, screen_height),
-        clear_color: Color::RGB(64, 192, 255),
-    };
-
-    let mut game_state: GameState = GameState {
-        board: make_blank_board(),
-        current_player: BoardPiece::Red,
-        pieces_droped: [0, 0],
-    };
+    let mut game_state: GameState = GameState::new();
 
     let mut running: bool = true;
 

@@ -13,6 +13,13 @@ pub struct Renderer {
 }
 
 impl Renderer {
+    pub fn new(width: u32, height: u32) -> Self {
+        Self {
+            screen_area: Rect::new(0, 0, width, height),
+            clear_color: Color::RGB(64, 192, 255),
+        }
+    }
+
     pub fn render(&self, canvas: &mut Canvas<Window>, board: &[[BoardPiece; 5]; 5]) {
         canvas.set_draw_color(self.clear_color);
         canvas.fill_rect(self.screen_area).ok().unwrap_or_default();
