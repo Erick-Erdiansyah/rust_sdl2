@@ -5,6 +5,56 @@ mod view;
 use model::game::GameState;
 use view::board_view::Renderer;
 
+// fn test_task_a() {
+//     let mut v: Vec<u32> = Vec::new();
+
+//     v.push(18);
+//     v.push(12);
+
+//     let mut size: usize = v.len();
+//     let mut capacity: usize = v.capacity();
+
+//     println!("element = {}", size);
+//     println!("reserved space = {}", capacity);
+
+//     for i in 0..(size) {
+//         println!("v[{}] = {}", i, v[i]);
+//     }
+
+//     v.pop();
+
+//     size = v.len();
+//     capacity = v.capacity();
+
+//     println!("element = {}", size);
+//     println!("reserved space = {}", capacity);
+
+//     for i in 0..(size) {
+//         println!("v[{}] = {}", i, v[i]);
+//     }
+// }
+
+// fn test_task_b(mut game: &mut GameState) {
+//     let command1 = PieceDropCommand {
+//         row: 0,
+//         col: 1,
+//         player: model::game::BoardPiece::Red,
+//     };
+//     let command2 = PieceDropCommand {
+//         row: 0,
+//         col: 1,
+//         player: model::game::BoardPiece::Black,
+//     };
+
+//     command1.perform(game);
+
+//     println!("is command valid : {}", command2.is_valid(game));
+
+//     command1.undo(game);
+
+//     println!("is command valid : {}", command2.is_valid(game));
+// }
+
 fn main() -> Result<(), String> {
     let screen_width: u32 = 800;
     let screen_height: u32 = 600;
@@ -40,6 +90,14 @@ fn main() -> Result<(), String> {
                     let row: usize = (5 * y / board_view.screen_area.h).try_into().unwrap();
 
                     game_state.handle_click(row, col);
+                }
+
+                Event::KeyDown { keycode, .. } => {
+                    if keycode.unwrap() == sdl2::keyboard::Keycode::U {
+                        game_state.undo_action();
+                    }else if keycode.unwrap() == sdl2::keyboard::Keycode::R {
+                        game_state.redo_action();
+                    }
                 }
 
                 _ => {}
