@@ -1,22 +1,27 @@
 use sdl2::{
+    image::LoadTexture,
     pixels::Color,
     rect::{Point, Rect},
-    render::Canvas,
-    video::Window,
+    render::{Canvas, Texture, TextureCreator},
+    video::{Window, WindowContext},
 };
 
 use crate::model::game::BoardPiece;
 
-pub struct Renderer {
+pub struct Renderer<'a> {
     pub screen_area: Rect,
     pub clear_color: Color,
+    pieces: Texture<'a>,
 }
 
-impl Renderer {
-    pub fn new(width: u32, height: u32) -> Self {
+impl<'a> Renderer<'a> {
+    pub fn new(width: u32, height: u32, texture_loader: &'a TextureCreator<WindowContext>) -> Self {
+        let _pieces: Result<Texture<'_>, String> = texture_loader.load_texture("img/pieces.jpg");
+
         Self {
             screen_area: Rect::new(0, 0, width, height),
             clear_color: Color::RGB(64, 192, 255),
+            pieces: _pieces.ok().unwrap(),
         }
     }
 
@@ -121,22 +126,28 @@ impl Renderer {
                     continue;
                 }
 
-                let mut color = Color::RGB(0, 0, 0);
+                let image = &self.pieces;
+                let image_attibutes = image.query();
+                let mut src_rect: Rect = Rect::new(
+                    0,
+                    (image_attibutes.height / 2).try_into().unwrap(),
+                    image_attibutes.width / 2,
+                    image_attibutes.height / 2,
+                );
 
                 if board[row][col] == BoardPiece::Red {
-                    color = Color::RGB(255, 0, 0);
+                    src_rect.set_x((image_attibutes.width / 2).try_into().unwrap());
+                    src_rect.set_y(0);
                 }
 
-                let rect: Rect = Rect::new(
+                let dest_rect: Rect = Rect::new(
                     width / 4 + width * j,
                     height / 4 + height * i,
                     (width / 2).try_into().unwrap(),
                     (height / 2).try_into().unwrap(),
                 );
 
-                canvas.set_draw_color(color);
-
-                canvas.fill_rect(rect).ok().unwrap_or_default()
+                canvas.copy(image, src_rect, dest_rect).unwrap();
             }
         }
     }

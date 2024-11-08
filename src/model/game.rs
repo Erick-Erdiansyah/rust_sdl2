@@ -28,32 +28,32 @@ impl GameState {
         }
     }
 
-    pub fn jumble_board(&mut self) {
-        self.board[1][0] = BoardPiece::Red;
-        self.board[2][0] = BoardPiece::Black;
-    }
+    // pub fn jumble_board(&mut self) {
+    //     self.board[1][0] = BoardPiece::Red;
+    //     self.board[2][0] = BoardPiece::Black;
+    // }
 
-    pub fn print_board(&self) {
-        let mut label: String;
+    // pub fn print_board(&self) {
+    //     let mut label: String;
 
-        for row in 0..5 {
-            for col in 0..5 {
-                if self.board[row][col] == BoardPiece::None {
-                    label = "-".to_string();
-                } else if self.board[row][col] == BoardPiece::Red {
-                    label = "R".to_string();
-                } else {
-                    label = "B".to_string();
-                }
+    //     for row in 0..5 {
+    //         for col in 0..5 {
+    //             if self.board[row][col] == BoardPiece::None {
+    //                 label = "-".to_string();
+    //             } else if self.board[row][col] == BoardPiece::Red {
+    //                 label = "R".to_string();
+    //             } else {
+    //                 label = "B".to_string();
+    //             }
 
-                print!("{}", label)
-            }
+    //             print!("{}", label)
+    //         }
 
-            println!()
-        }
+    //         println!()
+    //     }
 
-        println!()
-    }
+    //     println!()
+    // }
 
     pub fn handle_click(&mut self, row: usize, col: usize) {
         let command = PieceDropCommand {

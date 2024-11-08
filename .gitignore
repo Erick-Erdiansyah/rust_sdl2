@@ -3,3 +3,4 @@ SDL2.lib
 SDL2.pdb
 SDL2main.lib
 SDL2test.lib
+SDL2_image.lib

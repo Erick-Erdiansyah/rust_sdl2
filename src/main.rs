@@ -1,4 +1,4 @@
-use sdl2::event::Event;
+use sdl2::{event::Event, render::TextureCreator, video::WindowContext};
 
 mod model;
 mod view;
@@ -70,7 +70,9 @@ fn main() -> Result<(), String> {
 
     let mut canvas = window.into_canvas().build().unwrap();
 
-    let board_view: Renderer = Renderer::new(screen_width, screen_height);
+    let texture_loader: TextureCreator<WindowContext> = canvas.texture_creator();
+
+    let board_view: Renderer = Renderer::new(screen_width, screen_height, &texture_loader);
 
     let mut game_state: GameState = GameState::new();
 
@@ -95,7 +97,7 @@ fn main() -> Result<(), String> {
                 Event::KeyDown { keycode, .. } => {
                     if keycode.unwrap() == sdl2::keyboard::Keycode::U {
                         game_state.undo_action();
-                    }else if keycode.unwrap() == sdl2::keyboard::Keycode::R {
+                    } else if keycode.unwrap() == sdl2::keyboard::Keycode::R {
                         game_state.redo_action();
                     }
                 }
