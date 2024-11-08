@@ -5,6 +5,7 @@ use sdl2::rect::Rect;
 mod model;
 mod view;
 use model::game::make_blank_board;
+use model::game::BoardPiece;
 use model::game::GameState;
 use view::board_view;
 
@@ -34,6 +35,8 @@ fn main() -> Result<(), String> {
 
     let mut game_state: GameState = GameState {
         board: make_blank_board(),
+        current_player: BoardPiece::Red,
+        pieces_droped: [0, 0],
     };
 
     let mut running: bool = true;

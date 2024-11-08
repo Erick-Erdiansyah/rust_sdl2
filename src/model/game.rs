@@ -11,6 +11,8 @@ pub fn make_blank_board() -> [[BoardPiece; 5]; 5] {
 
 pub struct GameState {
     pub board: [[BoardPiece; 5]; 5],
+    pub current_player: BoardPiece,
+    pub pieces_droped: [i32; 2],
 }
 
 impl GameState {
@@ -42,11 +44,37 @@ impl GameState {
     }
 
     pub fn handle_click(&mut self, row: usize, col: usize) {
-        // println!("clicked at ({col},{row})");
         if row > 4 || col > 4 {
             return;
         }
 
-        self.board[row][col] = BoardPiece::Red;
+        if self.pieces_droped[self.index_of_pieces(self.current_player)] >= 4 {
+            return;
+        }
+
+        if self.board[row][col] != BoardPiece::None {
+            return;
+        }
+
+        self.board[row][col] = self.current_player;
+
+        self.next_turn();
+    }
+
+    fn next_turn(&mut self) {
+        self.pieces_droped[self.index_of_pieces(self.current_player)] += 1;
+
+        if self.current_player == BoardPiece::Red {
+            self.current_player = BoardPiece::Black
+        } else {
+            self.current_player = BoardPiece::Red;
+        }
+    }
+
+    fn index_of_pieces(&mut self, piece: BoardPiece) -> usize {
+        if piece == BoardPiece::Red {
+            return 0;
+        }
+        return 1;
     }
 }
